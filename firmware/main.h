@@ -28,7 +28,7 @@
 #define UART_PORT_PIN PB1
 #define UART_PORT_DDR DDRB
 
-#define BAUD 9600L
+#define BAUD 9600UL
 #include <util/setbaud.h>
 /*#define UBRR_VAL ((F_CPU+BAUD*8)/(BAUD*16)-1)
 #define BAUD_REAL (F_CPU/(16*(UBRR_VAL+1)))
@@ -72,7 +72,7 @@ extern fix16_t g_current_temperature;
 #include "com.h"
 
 
-int tempsens_start_measure();
-fix16_t tempsens_get_temperature();
+int tempsens_start_measure(void);
+fix16_t tempsens_get_temperature(void);
 
 #endif//MAIN_H

@@ -61,7 +61,7 @@ fix16_t tempsens_get_temperature()
 }
 
 
-int main()
+int main(void)
 {
 	init_timer();
 	uart_init(UART_BAUD_SELECT(F_CPU, BAUD));

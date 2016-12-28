@@ -10,13 +10,12 @@ AVRDUDE_PROGRAMMER=usbtiny
 AVRDUDE_ARCH=m8
 AVRDUDE_FLAGS=
 AVRDUDE_FUSES=-U lfuse:w:0xce:m -U hfuse:w:0xd1:m
-CPU_FREQ=20083200L 
+CPU_FREQ=20083200UL
 
 CC=avr-gcc
 LD=avr-gcc
 
-CFLAGS=-Wall -Wpedantic -Wno-pointer-sign -g --std=c11 -Os
-# CFLAGS=-O2 -Wno-pointer-sign -g --std=c11 -Wall -Wpedantic -Wshadow -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wformat -Wswitch-default -Wcast-align -Wbad-function-cast -Winline -Wundef -Wnested-externs -Wconversion -Wextra
+CFLAGS=-DFIXMATH_NO_CACHE -DFIXMATH_NO_64BIT -Os -Wno-pointer-sign -g --std=c11 -Wall -Wpedantic -Wshadow -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wformat -Wswitch-default -Wcast-align -Wbad-function-cast -Winline -Wundef -Wnested-externs -Wextra# -Wconversion
 CXXFLAGS=
 LDFLAGS=#-Wl,-u,vfprintf
 

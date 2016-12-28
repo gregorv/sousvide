@@ -21,8 +21,8 @@
 
 typedef unsigned char command_t;
 
-void com_init();
-void com_handle();
+void com_init(void);
+void com_handle(void);
 
 typedef enum {
 	NO_ERROR = 0,
