@@ -15,7 +15,8 @@ CPU_FREQ=20083200L
 CC=avr-gcc
 LD=avr-gcc
 
-CFLAGS=-Wall -Os -Wno-pointer-sign
+CFLAGS=-Wall -Wpedantic -Wno-pointer-sign -g --std=c11 -Os
+# CFLAGS=-O2 -Wno-pointer-sign -g --std=c11 -Wall -Wpedantic -Wshadow -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wformat -Wswitch-default -Wcast-align -Wbad-function-cast -Winline -Wundef -Wnested-externs -Wconversion -Wextra
 CXXFLAGS=
 LDFLAGS=#-Wl,-u,vfprintf
 
@@ -61,19 +62,19 @@ $(DEPDIR)/%.d: ;
 	avr-objcopy -O ihex $(HEX_FLAGS) -j .eeprom $< $@
 
 %.lss: $(TARGET)
-	avr-objcopy -h -S $< > $@
+	avr-objdump -h -S $< > $@
 
 .PHONY: size
 size: $(TARGET)
 	@echo
-	@avr-size $(TARGET)
+	@avr-size $(TARGET) -C --mcu=$(COMPILE_ARCH)
 
 $(TARGET): $(EXTRA_PRE_TARGETS) $(OBJS)
-	$(LD) $(LDFLAGS) $(LIBDIRS) $(LIBS) $(OBJS) -o $(TARGET)
+	$(LD) $(LDFLAGS) $(LIBDIRS) $(OBJS) $(LIBS) -mmcu=$(COMPILE_ARCH) -o $(TARGET)
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET) $(LSS_TARGET) $(HEX_TARGET) $(OBJS)
+	rm -f $(TARGET) $(LSS_TARGET) $(EEP_TARGET) $(HEX_TARGET) $(OBJS)
 	$(MAKE) -C libfixmath clean
 
 .PHONY: flash
