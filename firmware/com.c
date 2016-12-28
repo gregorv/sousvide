@@ -15,8 +15,8 @@ void com_init()
 
 static unsigned char hex_to_uchar(const char* twochar)
 {
-	return (((unsigned char)twochar[0]-'0') << 4)
-		+ ((unsigned char)twochar[1]-'0');
+	return (unsigned char)(((twochar[0] - com_zero) << 4)
+		+ (twochar[1] - com_zero));
 }
 static fix16_t hex_to_fix16(const char* twochar)
 {
@@ -31,8 +31,8 @@ static fix16_t hex_to_fix16(const char* twochar)
 
 static void put_uchar(unsigned char val)
 {
-	uart_putc(((val&0xf0)>>4) + '0');
-	uart_putc((val&0x0f) + '0');
+	uart_putc(((val & 0xf0c)>>4) + com_zero);
+	uart_putc((uint8_t)((val & 0x0f) + com_zero));
 }
 
 static void put_fix16(fix16_t val)
@@ -86,7 +86,7 @@ static void com_handle_command(char* cmd, uint8_t len)
 		com_fail_response(command, ERROR_ARG_SYNTAX);
 		return;
 	}
-	uint8_t nargs = (len-2)>>3;
+	uint8_t nargs = (uint8_t)((len-2) >> 3);
 	if(nargs > MAX_ARGS) {
 		com_fail_response(command, ERROR_TOO_MANY_ARGS);
 		return;
@@ -151,8 +151,8 @@ void com_handle()
 		if(data & UART_NO_DATA) {
 			break;
 		}
-		g_buf[g_buf_cur_len++] = data & 0xFF;
-		int cmdlen = 0;
+		g_buf[g_buf_cur_len++] = (char)(data & 0xFF);
+		uint8_t cmdlen = 0;
 		for(cmdlen = 0; cmdlen < g_buf_cur_len-1; ++cmdlen) {
 			if(g_buf[cmdlen] == '\r' && g_buf[cmdlen+1] == '\n') {
 				break;

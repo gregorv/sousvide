@@ -8,6 +8,8 @@ typedef unsigned char command_t;
 void com_init(void);
 void com_handle(void);
 
+static const unsigned char com_zero = 0x30; /* = '0' */
+
 typedef enum {
 	NO_ERROR = 0,
 	ERROR_NO_CMD = 1,
