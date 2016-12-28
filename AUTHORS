@@ -1,0 +1,22 @@
+Sousvide Firmware, Hardware & Control GUI by Gregor Vollmer
+Copyright (C) 2016 under GPLv3
+http://dynamic-noise.net/sousvide/
+
+UART Library by Peter Fleury
+Copyright (C) 2015 under GPLv3
+Sources: firmware/uart.h firmware/uart.c
+URL: http://homepage.hispeed.ch/peterfleury/avr-software.html
+
+Onewire Library by Peter Dannegger
+Sources: firmware/(1wire.h,1wire.c,delay.h,delay.c,timebase.h,timebase.c)
+URL: https://www.mikrocontroller.net/topic/14792
+
+QCustomPlot by Emanuel Eichhammer
+Copyright (C) 2011-2016 under GPLv3
+Sources: sousvide/src/qcustomplot.(h,cpp)
+URL: http://www.qcustomplot.com/
+
+libfixmath by Ben Brewer
+Copyright (C) 2012 under the MIT license
+Sources: firmware/libfixmath/
+URL: https://code.google.com/p/libfixmath

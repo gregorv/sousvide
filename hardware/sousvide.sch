@@ -29,16 +29,16 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:sousvide-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
+Title "Sousvide Temperature Controller"
+Date "2016-08-03"
+Rev "1"
+Comp "Gregor Vollmer <git@dynamic-noise.net>"
+Comment1 "(c) 2016 GPLv3"
 Comment2 ""
 Comment3 ""
 Comment4 ""

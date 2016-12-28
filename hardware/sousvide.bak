@@ -29,16 +29,16 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:sousvide-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
+Title "Sousvide Temperature Controller"
+Date "2016-12-28"
+Rev "r1"
+Comp "Gregor Vollmer <git@dynamic-noise.net>"
+Comment1 "(c) 2016 GPLv3"
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -1232,7 +1232,7 @@ L R R113
 U 1 1 57A2E264
 P 6300 1300
 F 0 "R113" H 6370 1346 50  0000 L CNN
-F 1 "360" H 6370 1255 50  0000 L CNN
+F 1 "1k5" H 6370 1255 50  0000 L CNN
 F 2 "Resistors_SMD:R_0603_HandSoldering" V 6230 1300 50  0001 C CNN
 F 3 "" H 6300 1300 50  0000 C CNN
 	1    6300 1300
@@ -1243,7 +1243,7 @@ L R R114
 U 1 1 57A2E332
 P 6700 1000
 F 0 "R114" H 6770 1046 50  0000 L CNN
-F 1 "240" H 6770 955 50  0000 L CNN
+F 1 "1k" H 6770 955 50  0000 L CNN
 F 2 "Resistors_SMD:R_0603_HandSoldering" V 6630 1000 50  0001 C CNN
 F 3 "" H 6700 1000 50  0000 C CNN
 	1    6700 1000
