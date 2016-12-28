@@ -25,6 +25,10 @@ TARGET=$(EXEC_NAME).elf
 HEX_TARGET=$(EXEC_NAME).hex
 LSS_TARGET=$(EXEC_NAME).lss
 
+# default target
+.PHONY: all
+all: $(TARGET) $(HEX_TARGET) $(LSS_TARGET) size
+
 ###
 # Automatic dependency generation
 # http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#tldr
@@ -71,10 +75,6 @@ clean:
 .PHONY: flash
 flash: $(HEX_TARGET) size
 	avrdude -c $(AVRDUDE_PROGRAMMER) -p $(AVRDUDE_ARCH) $(AVRDUDE_FLAGS) -U $<
-#sousvide.elf: main.c main.h 1wire.h 1wire.c delay.h delay.c timebase.c timebase.h#	$(CC) -o sousvide.elf -DF_CPU=20083200L -mmcu=atmega8 -O3 -Wall -Wno-pointer-sign -lm -lprintf_flt -Wl,-u,vfprintf main.c delay.c 1wire.c timebase.c
-
-.PHONY: all
-all: $(TARGET) $(HEX_TARGET) $(LSS_TARGET).lss size
 
 .PHONY: flash-fuses
 flash-fuses:
