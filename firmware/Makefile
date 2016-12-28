@@ -15,7 +15,7 @@ CPU_FREQ=20083200UL
 CC=avr-gcc
 LD=avr-gcc
 
-CFLAGS=-DFIXMATH_NO_CACHE -DFIXMATH_NO_64BIT -Os -g --std=c11 -Wall -Wpedantic -Wshadow -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wformat -Wswitch-default -Wcast-align -Wbad-function-cast -Winline -Wundef -Wnested-externs -Wextra# -Wconversion
+CFLAGS=-DFIXMATH_NO_CACHE -DFIXMATH_NO_64BIT -Os -g --std=c11 -Wall -Wpedantic -Wshadow -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wformat -Wswitch-default -Wcast-align -Wbad-function-cast -Winline -Wundef -Wnested-externs -Wextra -Wconversion
 CXXFLAGS=
 LDFLAGS=#-Wl,-u,vfprintf
 
