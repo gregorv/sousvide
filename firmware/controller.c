@@ -15,15 +15,15 @@ fix16_t eepromTS __attribute__ ((section (".eeprom")));
 
 static inline fix16_t eeprom_read_fix16(const fix16_t* __p)
 {
-	return (fix16_t)eeprom_read_dword((uint32_t*)__p);
+	return (fix16_t)eeprom_read_dword((const uint32_t*)__p);
 }
 
-static inline void eeprom_write_fix16(const fix16_t* __p, fix16_t __value)
+static inline void eeprom_write_fix16(fix16_t* __p, fix16_t __value)
 {
 	eeprom_write_dword((uint32_t*)__p, (uint32_t)__value);
 }
 
-static inline void eeprom_update_fix16(const fix16_t* __p, fix16_t __value)
+static inline void eeprom_update_fix16(fix16_t* __p, fix16_t __value)
 {
 	eeprom_update_dword((uint32_t*)__p, (uint32_t)__value);
 }

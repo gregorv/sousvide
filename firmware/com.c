@@ -54,7 +54,7 @@ static void com_fail_response(command_t cmd, error_code_t err)
 	uart_puts_P("\r\n");
 }
 
-void com_response_v(command_t cmd, const fix16_t* val, uint8_t n)
+static void com_response_v(command_t cmd, const fix16_t* val, uint8_t n)
 {
 	uart_puts_P("OKAY");
 	put_uchar(cmd);
@@ -64,7 +64,7 @@ void com_response_v(command_t cmd, const fix16_t* val, uint8_t n)
 	uart_puts_P("\r\n");
 }
 
-void com_response_4(command_t cmd, fix16_t a, fix16_t b, fix16_t c, fix16_t d)
+static void com_response_4(command_t cmd, fix16_t a, fix16_t b, fix16_t c, fix16_t d)
 {
 	uart_puts_P("OKAY");
 	put_uchar(cmd);
@@ -75,7 +75,7 @@ void com_response_4(command_t cmd, fix16_t a, fix16_t b, fix16_t c, fix16_t d)
 	uart_puts_P("\r\n");
 }
 
-static void com_handle_command(char* cmd, int len)
+static void com_handle_command(char* cmd, uint8_t len)
 {
 	if(len < 2) {
 		com_fail_response(COMMAND_NO_CMD, ERROR_NO_CMD);
@@ -86,13 +86,13 @@ static void com_handle_command(char* cmd, int len)
 		com_fail_response(command, ERROR_ARG_SYNTAX);
 		return;
 	}
-	int nargs = (len-2)>>3;
+	uint8_t nargs = (len-2)>>3;
 	if(nargs > MAX_ARGS) {
 		com_fail_response(command, ERROR_TOO_MANY_ARGS);
 		return;
 	}
 	fix16_t args[MAX_ARGS];
-	for(size_t i=0; i<nargs; ++i) {
+	for(uint8_t i=0; i<nargs; ++i) {
 		args[i] = hex_to_fix16(cmd+2+(i<<3));
 	}
 	controller_state_t cstate = controller_get_state();

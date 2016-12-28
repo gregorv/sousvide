@@ -36,7 +36,7 @@ bit w1_reset(void)
 }
 
 
-uchar w1_bit_io( bit b )
+static uchar w1_bit_io( bit b )
 {
   cli();
   W1_DDR |= 1<<W1_PIN;
