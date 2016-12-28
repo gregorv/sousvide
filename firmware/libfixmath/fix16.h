@@ -22,14 +22,14 @@ extern "C"
 typedef int32_t fix16_t;
 
 static const fix16_t FOUR_DIV_PI  = 0x145F3;            /*!< Fix16 value of 4/PI */
-static const fix16_t _FOUR_DIV_PI2 = 0xFFFF9840;        /*!< Fix16 value of -4/PI² */
+static const fix16_t _FOUR_DIV_PI2 = (fix16_t)0xFFFF9840;        /*!< Fix16 value of -4/PI² */
 static const fix16_t X4_CORRECTION_COMPONENT = 0x399A; 	/*!< Fix16 value of 0.225 */
 static const fix16_t PI_DIV_4 = 0x0000C90F;             /*!< Fix16 value of PI/4 */
 static const fix16_t THREE_PI_DIV_4 = 0x00025B2F;       /*!< Fix16 value of 3PI/4 */
 
 static const fix16_t fix16_max = 0x7FFFFFFF; /*!< the maximum value of fix16_t */
-static const fix16_t fix16_min = 0x80000000; /*!< the minimum value of fix16_t */
-static const fix16_t fix16_overflow = 0x80000000; /*!< the value used to indicate overflows when FIXMATH_NO_OVERFLOW is not specified */
+static const fix16_t fix16_min = (fix16_t)0x80000000; /*!< the minimum value of fix16_t */
+static const fix16_t fix16_overflow = (fix16_t)0x80000000; /*!< the value used to indicate overflows when FIXMATH_NO_OVERFLOW is not specified */
 
 static const fix16_t fix16_pi  = 205887;     /*!< fix16_t value of pi */
 static const fix16_t fix16_e   = 178145;     /*!< fix16_t value of e */
@@ -39,8 +39,8 @@ static const fix16_t fix16_one = 0x00010000; /*!< fix16_t value of 1 */
  * These are inlined to allow compiler to optimize away constant numbers
  */
 static inline fix16_t fix16_from_int(int a) { return a * fix16_one; }
-static inline float fix16_to_float(fix16_t a) { return (float)a / fix16_one; }
-static inline double fix16_to_dbl(fix16_t a) { return (double)a / fix16_one; }
+static inline float fix16_to_float(fix16_t a) { return (float)a / (float)fix16_one; }
+static inline double fix16_to_dbl(fix16_t a) { return (double)a / (float)fix16_one; }
 
 static inline int fix16_to_int(fix16_t a)
 {
@@ -48,15 +48,15 @@ static inline int fix16_to_int(fix16_t a)
     return a >> 16;
 #else
     if (a >= 0)
-        return (a + fix16_one / 2) / fix16_one;
+        return (int)((a + fix16_one / 2) / fix16_one);
     else
-        return (a - fix16_one / 2) / fix16_one;
+        return (int)((a - fix16_one / 2) / fix16_one);
 #endif
 }
 
 static inline fix16_t fix16_from_float(float a)
 {
-    float temp = a * fix16_one;
+    float temp = a * (float)fix16_one;
 #ifndef FIXMATH_NO_ROUNDING
     temp += (temp >= 0) ? 0.5f : -0.5f;
 #endif
@@ -65,7 +65,7 @@ static inline fix16_t fix16_from_float(float a)
 
 static inline fix16_t fix16_from_dbl(double a)
 {
-    double temp = a * fix16_one;
+    double temp = a * (double)fix16_one;
 #ifndef FIXMATH_NO_ROUNDING
     temp += (temp >= 0) ? 0.5f : -0.5f;
 #endif
