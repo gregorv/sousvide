@@ -10,8 +10,8 @@ CC = avr-gcc
 AS = avr-gcc
 LD = avr-gcc
 AR = avr-ar
-CPP_FLAGS = -Os $(INC) -Wall -Wextra -c -mmcu=atmega8 -DFIXMATH_NO_CACHE
-CC_FLAGS  = -Os $(INC) -Wall -Wextra -c -mmcu=atmega8 -DFIXMATH_NO_CACHE
+CPP_FLAGS = -Os $(INC) -Wall -Wextra -c -mmcu=atmega8 -DFIXMATH_NO_CACHE -DFIXMATH_NO_64BIT
+CC_FLAGS  = -Os $(INC) -Wall -Wextra -c -mmcu=atmega8 -DFIXMATH_NO_CACHE -DFIXMATH_NO_64BIT
 AS_FLAGS  = $(CC_FLAGS) -D_ASSEMBLER_
 LD_FLAGS = -Wall
 
