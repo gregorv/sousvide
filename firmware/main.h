@@ -21,28 +21,14 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <avr/io.h>
-#include <util/delay.h>
+#include <avr/sleep.h>
 #include <avr/interrupt.h>
 
 #define UART_PORT PORTB
 #define UART_PORT_PIN PB1
 #define UART_PORT_DDR DDRB
 
-#define TRUE 1
-#define FALSE 0
-
-#define TEMPERATURE_CS PC4
-#define TEMPERATURE_CS_PORT PORTC
-#define TEMPERATURE_CS_DDR DDRC
-
-#define AVR_SPI_SS PB2
-#define AVR_SPI_SS_PORT PORTB
-#define AVR_SPI_SS_DDR DDRB
-
-#define TS_CONNECTED(x) ((x & (1<<2)) == 0)
-#define TS_TEMPERATURE(x) (x >> 3)
-
-#define BAUD 9600UL
+#define BAUD 9600L
 #include <util/setbaud.h>
 /*#define UBRR_VAL ((F_CPU+BAUD*8)/(BAUD*16)-1)
 #define BAUD_REAL (F_CPU/(16*(UBRR_VAL+1)))
@@ -64,15 +50,29 @@
 #define idata
 #define code
 
+#ifndef BAUD
+ #define BAUD 9600L
+#endif
+#ifndef F_CPU
+ #error F_CPU not specified
+#endif
+
+#include "fixmath.h"
+
+#define UART_TX_BUFFER_SIZE 16
+#define UART_RX_BUFFER_SIZE 48
+
+extern fix16_t g_current_temperature;
 
 #include "1wire.h"
 #include "delay.h"
 #include "timebase.h"
+#include "controller.h"
+#include "uart.h"
+#include "com.h"
 
-void control_init();
-void control_send_str(const char* ch);
-void control_send_byte(char b);
-void control_receive_byte(char b);
-void start_meas();
-void read_meas();
+
+int tempsens_start_measure();
+fix16_t tempsens_get_temperature();
+
 #endif//MAIN_H

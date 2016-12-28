@@ -1,6 +1,6 @@
 
 EXEC_NAME=sousvide
-OBJS=main.o 1wire.o delay.o timebase.o controller.o
+OBJS=main.o 1wire.o delay.o timebase.o controller.o uart.o com.o
 LIBS=-lfixmath -lprintf_flt
 INCDIRS=-I./libfixmath
 LIBDIRS=-L./libfixmath
