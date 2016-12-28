@@ -29,33 +29,19 @@
 #define UART_PORT_DDR DDRB
 
 #define BAUD 9600UL
-#include <util/setbaud.h>
-/*#define UBRR_VAL ((F_CPU+BAUD*8)/(BAUD*16)-1)
-#define BAUD_REAL (F_CPU/(16*(UBRR_VAL+1)))
-#define BAUD_ERROR ((BAUD_REAL*1000)/BAUD)
-#if ((BAUD_ERROR<990) || (BAUD_ERROR>1010))
-#error Systematic Baudrate Error larger than 1% !
-#endif*/
-
-#define XTAL F_CPU
 
 #define W1_PIN	PC1
 #define W1_IN	PINC
 #define W1_OUT	PORTC
 #define W1_DDR	DDRC
 
+/* Required by Peter Danneggers 1Wire code */
 #define uchar unsigned char
 #define uint unsigned int
 #define bit uchar
 #define idata
 #define code
-
-#ifndef BAUD
- #define BAUD 9600L
-#endif
-#ifndef F_CPU
- #error F_CPU not specified
-#endif
+#define XTAL F_CPU
 
 #include "fixmath.h"
 
