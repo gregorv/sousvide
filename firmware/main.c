@@ -1,31 +1,7 @@
 #include "main.h"
 
-uint8_t g_dimmerPhase = 0;
-volatile uint8_t g_dimmerDuty = 10;
 
 
-void dimmer_init()
-{
-	// Configure INT0
-/*	EICRA &= (1 << ISC01) | (1 << ISC00); // INT0 rising edge
-	EIMSK |= (1 << INT0); // Enable INT0 interrupt */
-
-	// Configure AC
-	ACSR |= (1 << ACIE); // enable AC interrupt
-	ACSR |= (1 << ACIS1) | (1 << ACIS0); // rising edge
-
-	TIMSK |= (1 << TOIE0); // enable timer interrupt
-	DIMMER_TRIAC_DDR |= (1<<DIMMER_TRIAC_P);
-}
-
-ISR(ANA_COMP_vect)
-{
-	g_dimmerPhase++;
-	if(g_dimmerPhase < g_dimmerDuty) {
-		// trigger TRIAC 
-		DIMMER_TRIAC_PORT |= (1<<DIMMER_TRIAC_P);
-		TCNT0 = 196; // 216 -> 10ms
-		TCCR0 |= (1 << CS02) | (0 << CS01) | (1 << CS00); // clk/1024
 	}
 }
 
@@ -113,19 +89,10 @@ void read_meas( void )
   control_send_str( "\r\n" );
 }
 
-ISR(TIMER0_OVF_vect)
-{
-	// stop timer
-	TCCR0 &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
-	// end trigger pulse
-	DIMMER_TRIAC_PORT &= ~(1<<DIMMER_TRIAC_P);
-
-}
 
 int main()
 {
 	init_timer();
-//	dimmer_init();
 	control_init();
 	sei();
 	control_send_str("Hello.\r\n");

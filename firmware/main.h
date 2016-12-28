@@ -15,10 +15,6 @@
 #define TRUE 1
 #define FALSE 0
 
-#define DIMMER_TRIAC_P PC5
-#define DIMMER_TRIAC_PORT PORTC
-#define DIMMER_TRIAC_DDR DDRC
-
 #define TEMPERATURE_CS PC4
 #define TEMPERATURE_CS_PORT PORTC
 #define TEMPERATURE_CS_DDR DDRC
@@ -57,7 +53,6 @@
 #include "delay.h"
 #include "timebase.h"
 
-void dimmer_init();
 void control_init();
 void control_send_str(const char* ch);
 void control_send_byte(char b);
