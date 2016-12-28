@@ -6,8 +6,10 @@ INCDIRS=-I./libfixmath
 LIBDIRS=-L./libfixmath
 
 COMPILE_ARCH=atmega8
+AVRDUDE_PROGRAMMER=usbtiny
 AVRDUDE_ARCH=m8
 AVRDUDE_FLAGS=
+AVRDUDE_FUSES=-U lfuse:w:0xce:m -U hfuse:w:0xd1:m
 CPU_FREQ=20083200L 
 
 CC=avr-gcc
@@ -66,13 +68,17 @@ clean:
 	rm -f $(TARGET) $(LSS_TARGET) $(HEX_TARGET) $(OBJS)
 	$(MAKE) -C libfixmath clean
 
+.PHONY: flash
+flash: $(HEX_TARGET) size
+	avrdude -c $(AVRDUDE_PROGRAMMER) -p $(AVRDUDE_ARCH) $(AVRDUDE_FLAGS) -U $<
 #sousvide.elf: main.c main.h 1wire.h 1wire.c delay.h delay.c timebase.c timebase.h#	$(CC) -o sousvide.elf -DF_CPU=20083200L -mmcu=atmega8 -O3 -Wall -Wno-pointer-sign -lm -lprintf_flt -Wl,-u,vfprintf main.c delay.c 1wire.c timebase.c
 
 .PHONY: all
 all: $(TARGET) $(HEX_TARGET) $(LSS_TARGET).lss size
 
-flash: $(HEX_TARGET)
-	avrdude -c $(AVRDUDE_PROGRAMMER) -p $(AVRDUDE_ARCH) $(AVRDUDE_FLAGS) -e -U $<
+.PHONY: flash-fuses
+flash-fuses:
+	avrdude -c $(AVRDUDE_PROGRAMMER) -p $(AVRDUDE_ARCH) $(AVRDUDE_FUSES)
 
 ###
 # Extra targets
