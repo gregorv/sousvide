@@ -24,10 +24,11 @@ EXTRA_PRE_TARGETS=libfixmath
 TARGET=$(EXEC_NAME).elf
 HEX_TARGET=$(EXEC_NAME).hex
 LSS_TARGET=$(EXEC_NAME).lss
+EEP_TARGET=$(EXEC_NAME).eep
 
 # default target
 .PHONY: all
-all: $(TARGET) $(HEX_TARGET) $(LSS_TARGET) size
+all: $(TARGET) $(HEX_TARGET) $(LSS_TARGET) $(EEP_TARGET) size
 
 ###
 # Automatic dependency generation
@@ -54,7 +55,10 @@ $(DEPDIR)/%.d: ;
 ###
 # Binary conversion and diagnostic targets
 %.hex: $(TARGET)
-	avr-objcopy -O ihex $(HEX_FLAGS) $< $@
+	avr-objcopy -O ihex $(HEX_FLAGS) -R .eeprom $< $@
+
+%.eep: $(TARGET)
+	avr-objcopy -O ihex $(HEX_FLAGS) -j .eeprom $< $@
 
 %.lss: $(TARGET)
 	avr-objcopy -h -S $< > $@
