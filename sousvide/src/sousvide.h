@@ -21,6 +21,7 @@
 #include <QSerialPortInfo>
 #include "sousvidecontrol.h"
 #include "modifyconstants.h"
+#include "statusplot.h"
 
 namespace Ui {
 class sousvide;
@@ -44,6 +45,7 @@ private:
     Ui::sousvide *ui;
     SousvideControl* _control;
     ModifyConstants* _modifyConstants;
+    StatusPlot* _plot;
     QTimer* _refresh;
 };
 

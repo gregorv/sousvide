@@ -20,6 +20,7 @@ set(sousvide_SRC
   src/sousvidecontrol.cpp
   src/modifyconstants.cpp
   src/qcustomplot.cpp
+  src/statusplot.cpp
 )
 
 # Create code from a list of Qt designer ui files.

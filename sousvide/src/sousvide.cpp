@@ -23,11 +23,11 @@ sousvide::sousvide(QWidget *parent) :
     ui(new Ui::sousvide),
     _control(new SousvideControl(this)),
     _modifyConstants(new ModifyConstants(this, _control)),
+    _plot(nullptr),
     _refresh(new QTimer(this))
 {
-	ui->setupUi(this); 
-	ui->plot->xAxis->setLabel(tr("Time (s)"));
-	ui->plot->yAxis->setLabel(tr("Temperature (°C)"));
+	ui->setupUi(this);
+	_plot = new StatusPlot(this, ui->plot);
 	populateAvailablePorts();
 	connect(_control, &SousvideControl::connectionChanged, ui->connect, &QPushButton::setDisabled);
 	connect(ui->connect, &QPushButton::clicked, [=]() {
@@ -114,4 +114,6 @@ void sousvide::connectStatusDisplay()
 		ui->output->setText(QString::number(output) + " °C/s");
 		ui->T_smooth->setText(QString::number(slow) + " °C");
 	});
+	connect(_control, &SousvideControl::receivedInputTemperature, _plot, &StatusPlot::addInputTemperature);
+	connect(_control, &SousvideControl::receivedSetpointTemperature, _plot, &StatusPlot::addSetpointTemperature);
 }
