@@ -90,6 +90,9 @@ void sousvide::populateAvailablePorts()
 
 void sousvide::connectStatusDisplay()
 {
+	connect(_control, &SousvideControl::receivedInputTemperature, _plot, &StatusPlot::addInputTemperature);
+	connect(_control, &SousvideControl::receivedSetpointTemperature, _plot, &StatusPlot::addSetpointTemperature);
+	connect(_control, &SousvideControl::connectionChanged, _plot, &StatusPlot::reset);
 	connect(_control, &SousvideControl::receivedConstantP, [=](double val) {
 		ui->const_P->setText(QString::number(val));
 	});
@@ -114,6 +117,4 @@ void sousvide::connectStatusDisplay()
 		ui->output->setText(QString::number(output) + " °C/s");
 		ui->T_smooth->setText(QString::number(slow) + " °C");
 	});
-	connect(_control, &SousvideControl::receivedInputTemperature, _plot, &StatusPlot::addInputTemperature);
-	connect(_control, &SousvideControl::receivedSetpointTemperature, _plot, &StatusPlot::addSetpointTemperature);
 }
