@@ -12,7 +12,7 @@ StatusPlot::StatusPlot(QObject* parent, QCustomPlot* plot) :
 {
 	_plot->xAxis->setLabel(tr("Time (min)"));
 	_plot->yAxis->setLabel(tr("Temperature (°C)"));
-	_timer->setInterval(60);
+	_timer->setInterval(60000);
 	connect(_timer, &QTimer::timeout, this, &StatusPlot::thinOut);
 	reset();
 }
