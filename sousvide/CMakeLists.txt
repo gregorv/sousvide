@@ -5,6 +5,7 @@ project(sousvide)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 # Find the QtWidgets library
 find_package(Qt5Widgets REQUIRED)
@@ -21,6 +22,7 @@ set(sousvide_SRC
   src/modifyconstants.cpp
   src/qcustomplot.cpp
   src/statusplot.cpp
+  icons.qrc
 )
 
 # Create code from a list of Qt designer ui files.
