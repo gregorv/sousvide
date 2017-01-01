@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/disconnect.png</file>
+    <file>icons/clock_stop.png</file>
+    <file>icons/wand.png</file>
+    <file>icons/cog_edit.png</file>
+    <file>icons/cancel.png</file>
+    <file>icons/tux.png</file>
+    <file>icons/cross.png</file>
+    <file>icons/connect.png</file>
+    <file>icons/disk.png</file>
+    <file>icons/chart_line_edit.png</file>
+    <file>icons/clock.png</file>
+  </qresource>
+</RCC>
