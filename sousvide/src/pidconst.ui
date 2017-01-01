@@ -68,6 +68,9 @@
        <property name="decimals">
         <number>3</number>
        </property>
+       <property name="minimum">
+        <double>-32767.000000000000000</double>
+       </property>
        <property name="maximum">
         <double>32767.000000000000000</double>
        </property>
