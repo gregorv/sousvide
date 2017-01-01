@@ -14,53 +14,41 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef SOUSVIDE_H
-#define SOUSVIDE_H
 
-#include <QMainWindow>
-#include <QSerialPortInfo>
-#include "sousvidecontrol.h"
-#include "modifyconstants.h"
-#include "statusplot.h"
+#ifndef COOK_TIMER_H
+#define COOK_TIMER_H
 
+#include <QObject>
+#include <QTime>
+
+class QTimer;
 class QLabel;
-class QRadioButton;
-class Scanner;
-class CookTimer;
 
-namespace Ui {
-class sousvide;
-}
-
-class sousvide : public QMainWindow
+class CookTimer : public QObject
 {
-    Q_OBJECT
-
+	Q_OBJECT
 public:
-    explicit sousvide(QWidget *parent = 0);
-    ~sousvide();
+	explicit CookTimer(QObject* parent, QLabel* output);
 
 public slots:
-	void setConnected(bool connected);
+	void openDialog();
+	void start(unsigned int time);
+	void stop();
+
+signals:
+	void started();
+	void timeout();
+	void stopped();
+	void changeDisplay(QString);
 
 private slots:
-	void refresh();
+	void tick();
 
 private:
-	void populateAvailablePorts();
-	void connectStatusDisplay();
-
-    Ui::sousvide *ui;
-    SousvideControl* _control;
-    ModifyConstants* _modifyConstants;
-    StatusPlot* _plot;
-    QTimer* _refresh;
-    double _setpointTemperature;
-    QRadioButton* _liveDisplay;
-    QLabel* _connectionIcon;
-    QLabel* _serialPort;
-    Scanner* _scanner;
-    CookTimer* _cookTimer;
+	unsigned int _cookSeconds;
+	QTime _startTime;
+	QTimer* _tickTimer;
+	QLabel* _output;
 };
 
-#endif // SOUSVIDE_H
+#endif // COOK_TIMER_H

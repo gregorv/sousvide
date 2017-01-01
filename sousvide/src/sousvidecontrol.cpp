@@ -74,7 +74,7 @@ double SousvideControl::toDouble(QString hex)
 	int i = toInt(hex);
 	unsigned int frac = i&0xffff;
 	double x = static_cast<double>(i>>16) + static_cast<double>(frac)/0xffff;
-	qDebug() << "toDouble" << hex << x;
+//	qDebug() << "toDouble" << hex << x;
 	return x;
 }
 
@@ -92,7 +92,7 @@ int SousvideControl::toInt(QString hex)
 			break;
 		}
 	}
-	qDebug() << "toInt" << hex << QByteArray::number(val, 16);
+//	qDebug() << "toInt" << hex << QByteArray::number(val, 16);
 	return val;
 }
 
@@ -110,7 +110,7 @@ unsigned char SousvideControl::toUchar(QString hex)
 			break;
 		}
 	}
-	qDebug() << "toUchar" << hex << val;
+//	qDebug() << "toUchar" << hex << val;
 	return val;
 }
 
@@ -195,6 +195,12 @@ void SousvideControl::requestPidDiagnostic()
 	dispatchCommand();
 }
 
+void SousvideControl::requestVersion()
+{
+	_queue.push({CMD_VERSION, {}});
+	dispatchCommand();
+}
+
 void SousvideControl::softReset()
 {
 	_queue.push({CMD_SOFT_RESET, {}});
@@ -207,7 +213,7 @@ void SousvideControl::dataAvailable()
 		return;
 	}
 	auto line = _serial->readLine();
-	qDebug() << "RESPONSE: '" << line << "'";
+	// qDebug() << "RESPONSE: '" << line << "'";
 	_awaitResponse = false;
 	_timeoutTimer->stop();
 	dispatchCommand();
@@ -218,13 +224,16 @@ void SousvideControl::dataAvailable()
 		QString argstr = line.right(line.size()-6);
 		argstr = argstr.left(argstr.size()-2);
 		if(argstr.size()%8 != 0) {
+			qDebug() << "RESPONSE: '" << line << "'";
 			qDebug() << " -> Syntax Error! argstrlen=" << argstr.size()
 			         << argstr;
 			return;
 		}
 		std::vector<double> args;
+		std::vector<int> argsInt;
 		for(size_t i = 0;  i < argstr.size(); i += 8) {
 			args.push_back(toDouble(argstr.mid(i, 8)));
+			argsInt.push_back(toInt(argstr.mid(i, 8)));
 		}
 		try {
 			if(cmd == CMD_GET_P) {
@@ -239,13 +248,26 @@ void SousvideControl::dataAvailable()
 				emit receivedInputTemperature(args.at(0));
 			} else if(cmd == CMD_PID_DIAG) {
 				emit receivedPidDiagnostic(args.at(0), args.at(1), args.at(2), args.at(3));
+			} else if(cmd == CMD_VERSION) {
+				qDebug() << "Version:" << argsInt.at(0) << 0x534f5553;
+				if(argsInt.at(0) != 0x534f5553) {
+					emit failure(false, cmd);
+				} else {
+					short major = argsInt.at(1) >> 16;
+					short minor = argsInt.at(1);
+					emit receivedVersion(major, minor);
+				}
 			} else {
+				qDebug() << "RESPONSE: '" << line << "'";
 				qDebug() << " -> Unknown Command " << cmd;
 			}
 		} catch(std::out_of_range& e) {
+			qDebug() << "RESPONSE: '" << line << "'";
 			qDebug() << " -> Tried to access not-sent argument" << e.what();
 		}
 	} else {
+		emit failure(false, cmd);
+		qDebug() << "RESPONSE: '" << line << "'";
 		qDebug() << " -> Failure-Response! " << line;
 	}
 }
@@ -270,13 +292,14 @@ void SousvideControl::dispatchCommand()
 	_awaitResponse = true;
 	req.append(request);
 	_serial->write(req);
-	qDebug() << "REQUEST: " << request;
+//	qDebug() << "REQUEST: " << request;
 	_timeoutTimer->start();
 }
 
 void SousvideControl::timeout()
 {
 	qDebug() << "TIMEOUT!";
+	emit failure(true, CMD_NO_CMD);
 	if(_awaitResponse) {
 		_awaitResponse = false;
 		dispatchCommand();

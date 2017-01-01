@@ -53,6 +53,7 @@ public slots:
 	void requestSetpointTemperature();
 	void requestInputTemperature();
 	void requestPidDiagnostic();
+	void requestVersion();
 	void softReset();
 
 signals:
@@ -65,6 +66,8 @@ signals:
 	void receivedInputTemperature(double val);
 	void receivedPidDiagnostic(double integral, double derivative, double output, double slowTemp);
 	void receivedFailState(int);
+	void receivedVersion(short, short);
+	void failure(bool timeout, int type);
 
 private slots:
 	void dataAvailable();
@@ -86,6 +89,7 @@ private:
 		CMD_SET_TS = 0x08,
 		CMD_PID_DIAG,
 		CMD_SOFT_RESET,
+		CMD_VERSION = 0x76,
 		CMD_NO_CMD = 0xff
 	};
 	struct command_t {

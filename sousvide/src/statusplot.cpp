@@ -33,7 +33,6 @@ void StatusPlot::reset()
 void StatusPlot::addInputTemperature(double t)
 {
 	double seconds = _startTime.secsTo(QTime::currentTime());
-	qDebug() << "addInputTemperature" << seconds/60.0 << t;
 	_graphInput->addData(seconds/60.0, t);
 	_plot->rescaleAxes();
 	_plot->replot();

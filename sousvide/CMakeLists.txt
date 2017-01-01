@@ -18,10 +18,12 @@ add_definitions("--std=c++17")
 set(sousvide_SRC
   src/main.cpp
   src/sousvide.cpp
+  src/scanner.cpp
   src/sousvidecontrol.cpp
   src/modifyconstants.cpp
   src/qcustomplot.cpp
   src/statusplot.cpp
+  src/cooktimer.cpp
   icons.qrc
 )
 
