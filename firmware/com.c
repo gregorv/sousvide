@@ -17,6 +17,7 @@
 #include "com.h"
 #include "uart.h"
 #include "controller.h"
+#include "version.h"
 #define BUF_MAX_LEN 36
 #define MAX_ARGS 3
 static int g_buf_cur_len;
@@ -60,6 +61,13 @@ static void put_fix16(fix16_t val)
 	put_uchar(p[0]);
 }
 
+static void put_short(short val)
+{
+	unsigned char* p = (unsigned char*)&val;
+	put_uchar(p[1]);
+	put_uchar(p[0]);
+}
+
 static void com_fail_response(command_t cmd, error_code_t err)
 {
 	uart_puts_P("FAIL");
@@ -88,6 +96,16 @@ static void com_response_4(command_t cmd, fix16_t a, fix16_t b, fix16_t c, fix16
 	put_fix16(b);
 	put_fix16(c);
 	put_fix16(d);
+	uart_puts_P("\r\n");
+}
+
+static void com_response_version(void)
+{
+	uart_puts_P("OKAY");
+	put_uchar(COMMAND_VERSION);
+	put_fix16(VERSION_ID);
+	put_short(VERSION_MAJOR);
+	put_short(VERSION_MINOR);
 	uart_puts_P("\r\n");
 }
 
@@ -122,6 +140,8 @@ static void com_handle_command(char* cmd, uint8_t len)
 		com_response_v(command, &cstate.setpoint, 1);
 	} else if(command == COMMAND_GET_TI) {
 		com_response_v(command, &g_current_temperature, 1);
+	} else if(command == COMMAND_VERSION) {
+		com_response_version();
 	} else if(command == COMMAND_SET_P) {
 		if(nargs != 1) {
 			com_fail_response(command, ERROR_ARG_MISMATCH);
